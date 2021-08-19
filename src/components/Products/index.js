@@ -1,12 +1,13 @@
 import React from "react";
 import ProductList from "../ProductList";
+import ZeroState from "../ZeroState";
 const Products = ({
   items,
   handelDeleteItem,
   handelSearchInPut,
   searchValue,
   handelAddToFavorite,
-  handelAddToCart,
+  handelAddItemToCart,
 }) => {
   //   console.log(items);
   return (
@@ -39,12 +40,14 @@ const Products = ({
                   singleItem={item}
                   handelDeleteItem={handelDeleteItem}
                   handelAddToFavorite={handelAddToFavorite}
-                  handelAddToCart={handelAddToCart}
+                  handelAddItemToCart={handelAddItemToCart}
                 />
               );
             })
         ) : (
-          <li>There is no item</li>
+          <li>
+            <ZeroState />
+          </li>
         )}
       </ul>
     </>

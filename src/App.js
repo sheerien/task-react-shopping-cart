@@ -8,6 +8,7 @@ import Products from "./components/Products";
 import Favorites from "./components/Favorites";
 import data from "./data";
 import Cart from "./components/Cart";
+import routes from "./MappingRouter";
 let allData = JSON.parse(localStorage.getItem("data")) || data;
 localStorage.setItem("data", JSON.stringify(allData));
 export default class App extends Component {
@@ -18,10 +19,7 @@ export default class App extends Component {
     redirect: false,
     searchValue: "",
     favorites: [],
-    cart: [],
-    addQyt: 0,
-    qyt: 0,
-    total: 0,
+    cartItem: [],
   };
 
   handelChangeInput = (e) => {
@@ -91,52 +89,32 @@ export default class App extends Component {
     });
   };
 
-  handelAddToCart = (item) => {
-    let { cart } = this.state;
-    let existedItemInCart = cart.find(
-      (existedItem) => existedItem.id === item.id
-    );
-    if (!existedItemInCart) {
+  handelAddItemToCart = (item) => {
+    let { cartItem } = this.state;
+    // console.log(item);
+    let cartExistItem = cartItem.find((cItem) => cItem.id == item.id);
+    if (cartExistItem) {
+      let cartItems = cartItem.map((cItem) =>
+        cItem.id == item.id
+          ? { ...cartExistItem, qyt: cartExistItem.qyt + 1 }
+          : cItem
+      );
       this.setState({
-        cart: [...cart, item],
-        addQyt: this.state.addQyt + 1,
+        cartItem: cartItems,
       });
+    } else {
+      this.setState({ cartItem: [...cartItem, { ...item, qyt: 1 }] });
     }
   };
 
-  handelIncreaseQyt = (id) => {
-    let { cart, total } = this.state;
-    let existedItemInCart = cart.find((existedItem) => existedItem.id === id);
-    let tt = parseInt(existedItemInCart.price);
-    console.log(typeof tt);
-    console.log(typeof total);
-    if (existedItemInCart) {
-      this.setState({
-        qyt: this.state.qyt + 1,
-        total: total + tt,
-      });
-    }
-  };
-  handelDecreaseQyt = () => {
-    this.setState({
-      qyt: this.state.qyt > 0 ? this.state.qyt - 1 : 0,
-    });
-  };
-
-  handelDeleteFromCart = (id) => {
-    let cart = [...this.state.cart];
-    let newCart = cart.filter((product) => product.id !== id);
-    this.setState({
-      cart: newCart,
-      addQyt: this.state.addQyt > 0 ? this.state.addQyt - 1 : 0,
-    });
-  };
+  handelDeleteItemToCart = (item) => {};
 
   render() {
     return (
       <div>
         <NavBar />
         {this.state.redirect && <Redirect to="/products" />}
+
         <Switch>
           <Route path="/home" exact component={Home} />
           <Route
@@ -157,13 +135,9 @@ export default class App extends Component {
               return (
                 <Cart
                   {...props}
-                  cart={this.state.cart}
-                  qyt={this.state.qyt}
-                  addQyt={this.state.addQyt}
-                  total={this.state.total}
-                  handelIncreaseQyt={this.handelIncreaseQyt}
-                  handelDecreaseQyt={this.handelDecreaseQyt}
-                  handelDeleteFromCart={this.handelDeleteFromCart}
+                  cartItem={this.state.cartItem}
+                  handelAddItemToCart={this.handelAddItemToCart}
+                  handelDeleteItemToCart={this.handelDeleteItemToCart}
                 />
               );
             }}
@@ -181,7 +155,8 @@ export default class App extends Component {
                   handelSearchSubmit={this.handelSearchSubmit}
                   search={this.state.search}
                   handelAddToFavorite={this.handelAddToFavorite}
-                  handelAddToCart={this.handelAddToCart}
+                  handelAddItemToCart={this.handelAddItemToCart}
+                  handelDeleteItemToCart={this.handelDeleteItemToCart}
                 />
               );
             }}

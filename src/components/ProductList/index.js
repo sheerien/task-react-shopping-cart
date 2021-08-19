@@ -1,25 +1,27 @@
 import React from "react";
+import { strings } from "../../Constants";
 
 const ProductList = ({
   singleItem,
   handelDeleteItem,
   handelAddToFavorite,
-  handelAddToCart,
+  handelAddItemToCart,
 }) => {
   const { id, title, price } = singleItem;
   return (
     <li>
       {id} - {title} - {price} -
-      <button onClick={() => handelDeleteItem(id)}>Delete</button>-
+      <button onClick={() => handelDeleteItem(id)}>{strings.deleteItem}</button>
+      -
       <button onClick={() => handelAddToFavorite(singleItem)}>
-        Add-To-Favorite
+        {strings.addToFavorite}
       </button>
       -
       <button
         onClick={() => {
-          handelAddToCart(singleItem);
+          handelAddItemToCart(singleItem);
         }}>
-        Add To Cart
+        {strings.addToCart}
       </button>
     </li>
   );

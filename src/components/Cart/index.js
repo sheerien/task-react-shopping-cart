@@ -1,40 +1,26 @@
 import React from "react";
+import ZeroState from "../ZeroState";
 
-const Cart = ({
-  cart,
-  qyt,
-  handelIncreaseQyt,
-  handelDecreaseQyt,
-  addQyt,
-  handelDeleteFromCart,
-  total,
-}) => {
+function Cart({ cartItem, handelAddItemToCart, handelDeleteItemToCart }) {
   return (
     <div>
-      Number Elements Of Cart = [{addQyt}]
-      {cart.length
-        ? cart.map((c) => {
-            return (
-              <ul key={c.id}>
-                <li>
-                  {c.id} - {c.title} - {c.price} - {qyt} -total: {total}
-                  <button onClick={() => handelIncreaseQyt(c.id)}>
-                    +
-                  </button> -{" "}
-                  <button onClick={() => handelDecreaseQyt(c.id)}>-</button> -{" "}
-                  <button
-                    onClick={() => {
-                      handelDeleteFromCart(c.id);
-                    }}>
-                    Delete
-                  </button>
-                </li>
-              </ul>
-            );
-          })
-        : "There is no item"}
+      {cartItem.length ? (
+        cartItem.map((item) => {
+          return (
+            <ul key={item.id}>
+              <li>
+                {item.title} {item.qyt} X {item.price}{" "}
+                <button onClick={() => handelAddItemToCart(item)}>+</button>{" "}
+                <button onClick={() => handelDeleteItemToCart(item)}>-</button>
+              </li>
+            </ul>
+          );
+        })
+      ) : (
+        <ZeroState />
+      )}
     </div>
   );
-};
+}
 
 export default Cart;
