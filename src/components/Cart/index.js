@@ -2,6 +2,7 @@ import React from "react";
 import ZeroState from "../ZeroState";
 
 function Cart({ cartItem, handelAddItemToCart, handelDeleteItemToCart }) {
+  let total = cartItem.reduce((a, item) => a + item.total, 0);
   return (
     <div>
       {cartItem.length ? ` ItemsCount: ${cartItem.length}` : ""}
@@ -20,6 +21,7 @@ function Cart({ cartItem, handelAddItemToCart, handelDeleteItemToCart }) {
       ) : (
         <ZeroState />
       )}
+      {cartItem.length ? ` Total: ${total}` : ""}
     </div>
   );
 }

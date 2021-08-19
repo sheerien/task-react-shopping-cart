@@ -96,14 +96,21 @@ export default class App extends Component {
     if (cartExistItem) {
       let cartItems = cartItem.map((cItem) =>
         cItem.id == item.id
-          ? { ...cartExistItem, qyt: cartExistItem.qyt + 1 }
+          ? {
+              ...cartExistItem,
+              qyt: cartExistItem.qyt + 1,
+              total:
+                Number(cartExistItem.qyt + 1) * Number(cartExistItem.price),
+            }
           : cItem
       );
       this.setState({
         cartItem: cartItems,
       });
     } else {
-      this.setState({ cartItem: [...cartItem, { ...item, qyt: 1 }] });
+      this.setState({
+        cartItem: [...cartItem, { ...item, qyt: 1, total: Number(item.price) }],
+      });
     }
   };
 
@@ -119,7 +126,12 @@ export default class App extends Component {
     } else {
       let cartItems = cartItem.map((cItem) =>
         cItem.id == item.id
-          ? { ...cartExistItem, qyt: cartExistItem.qyt - 1 }
+          ? {
+              ...cartExistItem,
+              qyt: cartExistItem.qyt - 1,
+              total:
+                Number(cartExistItem.qyt - 1) * Number(cartExistItem.price),
+            }
           : cItem
       );
       this.setState({
