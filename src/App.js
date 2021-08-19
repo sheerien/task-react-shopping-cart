@@ -107,7 +107,26 @@ export default class App extends Component {
     }
   };
 
-  handelDeleteItemToCart = (item) => {};
+  handelDeleteItemToCart = (item) => {
+    let { cartItem } = this.state;
+    // console.log(item);
+    let cartExistItem = cartItem.find((cItem) => cItem.id == item.id);
+    if (cartExistItem.qyt == 1) {
+      let cartItems = cartItem.filter((cItem) => cItem.id != item.id);
+      this.setState({
+        cartItem: cartItems,
+      });
+    } else {
+      let cartItems = cartItem.map((cItem) =>
+        cItem.id == item.id
+          ? { ...cartExistItem, qyt: cartExistItem.qyt - 1 }
+          : cItem
+      );
+      this.setState({
+        cartItem: cartItems,
+      });
+    }
+  };
 
   render() {
     return (

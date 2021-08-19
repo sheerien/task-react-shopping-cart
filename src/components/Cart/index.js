@@ -4,6 +4,7 @@ import ZeroState from "../ZeroState";
 function Cart({ cartItem, handelAddItemToCart, handelDeleteItemToCart }) {
   return (
     <div>
+      {cartItem.length ? ` ItemsCount: ${cartItem.length}` : ""}
       {cartItem.length ? (
         cartItem.map((item) => {
           return (
