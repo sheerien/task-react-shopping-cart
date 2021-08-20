@@ -20,6 +20,9 @@ const NavBar = () => {
         <li>
           <NavLink to="/cart">Cart</NavLink>
         </li>
+        <li>
+          <NavLink to="/update-product">Update-Product</NavLink>
+        </li>
       </ul>
     </nav>
   );

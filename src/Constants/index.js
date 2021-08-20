@@ -3,4 +3,5 @@ export let strings = {
   addToCart: "Add To Cart",
   addToFavorite: "Add To Favorite",
   deleteItem: "Delete Item",
+  updateItem: "Update Item",
 };

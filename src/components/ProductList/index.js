@@ -6,6 +6,7 @@ const ProductList = ({
   handelDeleteItem,
   handelAddToFavorite,
   handelAddItemToCart,
+  handelUpdateProduct,
 }) => {
   const { id, title, price } = singleItem;
   return (
@@ -22,6 +23,13 @@ const ProductList = ({
           handelAddItemToCart(singleItem);
         }}>
         {strings.addToCart}
+      </button>
+      -
+      <button
+        onClick={() => {
+          handelUpdateProduct(singleItem);
+        }}>
+        {strings.updateItem}
       </button>
     </li>
   );

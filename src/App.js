@@ -9,6 +9,7 @@ import Favorites from "./components/Favorites";
 import data from "./data";
 import Cart from "./components/Cart";
 import routes from "./MappingRouter";
+import UpdateItem from "./components/UpdateItem";
 let allData = JSON.parse(localStorage.getItem("data")) || data;
 localStorage.setItem("data", JSON.stringify(allData));
 export default class App extends Component {
@@ -20,6 +21,9 @@ export default class App extends Component {
     searchValue: "",
     favorites: [],
     cartItem: [],
+    listItems: [],
+    updateTitle: "",
+    updatePrice: "",
   };
 
   handelChangeInput = (e) => {
@@ -140,6 +144,35 @@ export default class App extends Component {
     }
   };
 
+  handelUpdateProduct = (item) => {
+    let { listItems } = this.state;
+    console.log(item);
+    let listExistItem = listItems.find((lItem) => lItem.id == item.id);
+    if (listExistItem) {
+      return listExistItem;
+    } else {
+      this.setState(
+        {
+          listItems: [...listItems, { ...item }],
+          redirect: true,
+        },
+        () => {
+          this.setState({
+            updateTitle: this.state.listItems.title,
+            updatePrice: this.state.listItems.price,
+          });
+        }
+      );
+    }
+  };
+
+  handelUpdateChangeInput = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -174,6 +207,20 @@ export default class App extends Component {
             }}
           />
           <Route
+            path="/update-product"
+            render={(props) => {
+              return (
+                <UpdateItem
+                  {...props}
+                  listItems={this.state.listItems}
+                  handelUpdateChangeInput={this.handelUpdateChangeInput}
+                  updateTitle={this.state.updateTitle}
+                  updatePrice={this.state.updatePrice}
+                />
+              );
+            }}
+          />
+          <Route
             path="/products"
             render={(props) => {
               return (
@@ -188,6 +235,7 @@ export default class App extends Component {
                   handelAddToFavorite={this.handelAddToFavorite}
                   handelAddItemToCart={this.handelAddItemToCart}
                   handelDeleteItemToCart={this.handelDeleteItemToCart}
+                  handelUpdateProduct={this.handelUpdateProduct}
                 />
               );
             }}

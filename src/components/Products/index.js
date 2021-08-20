@@ -8,6 +8,7 @@ const Products = ({
   searchValue,
   handelAddToFavorite,
   handelAddItemToCart,
+  handelUpdateProduct,
 }) => {
   //   console.log(items);
   return (
@@ -41,6 +42,7 @@ const Products = ({
                   handelDeleteItem={handelDeleteItem}
                   handelAddToFavorite={handelAddToFavorite}
                   handelAddItemToCart={handelAddItemToCart}
+                  handelUpdateProduct={handelUpdateProduct}
                 />
               );
             })
